@@ -1,4 +1,5 @@
 ﻿using back.Models;
+using back.Exceptions;
 using back.Repositories.Interfaces;
 
 namespace back.Repositories
@@ -32,8 +33,14 @@ namespace back.Repositories
 
         public Comment? GetById(int id)
         {
-            return _dbContext.Comments.Where(u => u.CommentId == id).FirstOrDefault();
-
+            try
+            {
+                return _dbContext.Comments.Where(u => u.CommentId == id).FirstOrDefault();
+            }
+            catch (ArgumentNullException)
+            {
+                throw new BDDException("Error during the fetch of data");
+            }
         }
 
 
