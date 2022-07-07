@@ -145,20 +145,7 @@ namespace backTests.Services
 
             //THEN
         }
-        
-        [TestMethod]
-        public void Create_CommentWithId_ShouldKo()
-
-        {   //GIVEN
-            var dateToTest = new DateTime(2022, 7, 7, 00, 10, 15);
-
-            var comment = new Comment(1, dateToTest, null,"blablabla", "", new Topic());
-
-            Assert.ThrowsException<ArgumentException>(() => _commentService.Create(comment));
-            //WHEN
-
-            //THEN
-        }
+       
 
         [TestMethod]
         public void Create_UpdateCommentIsOk()
