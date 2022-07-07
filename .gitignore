@@ -1,2 +1,4 @@
 /back/bin
-/.vs
+/back/.vs
+/back/obj
+/back/TestResults
