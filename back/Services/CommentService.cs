@@ -25,9 +25,7 @@ namespace back.Services
         }
 
         public List<Comment> GetAllComments()
-        {
-            List<Comment> comments = _commentRepository.GetAllComments();
-           
+        {           
             return _commentRepository.GetAllComments();
         }
 
@@ -37,11 +35,6 @@ namespace back.Services
             if (comment.Content?.Length > 500)
             {
                 throw new ArgumentException("Your comment content has a 500 maximum character limit");
-            }
-
-            if (comment.CommentId > 0)
-            {
-                throw new ArgumentException("Comment is not new !");
             }
 
             return _commentRepository.Create(comment);
@@ -54,6 +47,11 @@ namespace back.Services
                 throw new ArgumentException("The comment must exist to be updated");
 
             return _commentRepository.Update(comment);
+        }
+
+        public void Delete(Comment comment)
+        {
+            throw new NotImplementedException();
         }
     }
 }

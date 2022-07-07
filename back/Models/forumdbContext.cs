@@ -18,7 +18,6 @@ namespace back.Models
 
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Topic> Topics { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,25 +37,19 @@ namespace back.Models
             {
                 entity.ToTable("comment");
 
+                entity.HasIndex(e => e.CommentTopicId, "CommentTopic_TopicID");
+
                 entity.Property(e => e.CommentId)
                     .ValueGeneratedNever()
                     .HasColumnName("CommentID");
 
                 entity.Property(e => e.Content).HasColumnType("text");
 
+                entity.Property(e => e.CreatedBy).HasColumnType("text");
+
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.CommentTopic)
-                    .WithOne(p => p.TopicComment)
-                    .HasForeignKey<Comment>(d => d.CommentId)
-                    .HasConstraintName("CommentTopic_TopicID");
-
-                entity.HasOne(d => d.CommentUser)
-                    .WithOne(p => p.Comment)
-                    .HasForeignKey<Comment>(d => d.CommentId)
-                    .HasConstraintName("CommentUser_UserID");
             });
 
             modelBuilder.Entity<Topic>(entity =>
@@ -67,31 +60,13 @@ namespace back.Models
                     .ValueGeneratedNever()
                     .HasColumnName("TopicID");
 
+                entity.Property(e => e.CreatedBy).HasColumnType("text");
+
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifDate).HasColumnType("datetime");
 
                 entity.Property(e => e.TopicTitle).HasMaxLength(50);
-
-                entity.HasOne(d => d.TopicUser)
-                    .WithOne(p => p.Topic)
-                    .HasForeignKey<Topic>(d => d.TopicId)
-                    .HasConstraintName("TopicUser_UserID");
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("user");
-
-                entity.Property(e => e.UserId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("UserID");
-
-                entity.Property(e => e.UserEmail).HasMaxLength(50);
-
-                entity.Property(e => e.UserLastName).HasMaxLength(45);
-
-                entity.Property(e => e.UserName).HasMaxLength(45);
             });
 
             OnModelCreatingPartial(modelBuilder);
