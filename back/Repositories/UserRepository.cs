@@ -3,6 +3,7 @@ using back.Repositories.Interfaces;
 
 namespace back.Repositories
 {
+    /*
     public class UserRepository : IUserRepository
     {
         private readonly forumdbContext _dbContext;
@@ -45,5 +46,5 @@ namespace back.Repositories
         }
 
         
-    }
+    }*/
 }

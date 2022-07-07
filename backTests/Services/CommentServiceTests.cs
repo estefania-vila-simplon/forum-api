@@ -31,9 +31,9 @@ namespace backTests.Services
             
             _commentService = new CommentService(_repository.Object);
             _comments = new List<Comment>();
-            _comments.Add(new Comment(1, new DateTime(), new DateTime(), "blabla", new User(), new Topic()));
-            _comments.Add(new Comment(2, new DateTime(), new DateTime(), "blabla", new User(), new Topic()));
-            _comments.Add(new Comment(3, new DateTime(), new DateTime(), "blabla", new User(), new Topic()));
+            _comments.Add(new Comment(1, new DateTime(), new DateTime(), "blabla", "", new Topic()));
+            _comments.Add(new Comment(2, new DateTime(), new DateTime(), "blabla", "", new Topic()));
+            _comments.Add(new Comment(3, new DateTime(), new DateTime(), "blabla", "", new Topic()));
         }
 
 
@@ -124,7 +124,7 @@ namespace backTests.Services
         {   //GIVEN
             var dateToTest = new DateTime(2022, 7, 7, 00, 10, 15);
 
-            var comment = new Comment(0, dateToTest, null,"blablabla", new User(), new Topic());
+            var comment = new Comment(0, dateToTest, null,"blablabla", "", new Topic());
 
             Assert.AreEqual(0, comment.CommentId);
 
@@ -154,7 +154,7 @@ namespace backTests.Services
         {   //GIVEN
             var dateToTest = new DateTime(2022, 7, 7, 00, 10, 15);
 
-            var comment = new Comment(1, dateToTest, null,"blablabla", new User(), new Topic());
+            var comment = new Comment(1, dateToTest, null,"blablabla", "", new Topic());
 
             Assert.ThrowsException<ArgumentException>(() => _commentService.Create(comment));
             //WHEN
@@ -163,12 +163,12 @@ namespace backTests.Services
         }
 
         [TestMethod]
-        public void Create_UpdateComment()
+        public void Create_UpdateCommentIsOk()
 
         {   //GIVEN
             var dateToTest = new DateTime(2022, 7, 7, 00, 10, 15);
 
-            var comment = new Comment(0, dateToTest, null, "blablabla", new User(), new Topic());
+            var comment = new Comment(0, dateToTest, null, "blablabla", "", new Topic());
 
             Assert.AreEqual(0, comment.CommentId);
 
@@ -210,7 +210,7 @@ namespace backTests.Services
         {   //GIVEN
             var dateToTest = new DateTime(2022, 7, 7, 00, 10, 15);
 
-            var comment = new Comment(0, dateToTest, null, "blablabla", new User(), new Topic());
+            var comment = new Comment(0, dateToTest, null, "blablabla", "", new Topic());
 
             Assert.ThrowsException<ArgumentException>(() => _commentService.Update(comment));
             //WHEN
@@ -231,6 +231,22 @@ namespace backTests.Services
             //THEN
             Assert.IsNotNull(comments);
 
+        }
+
+        [TestMethod]
+
+        public void Delete_DeleteComment_ShouldOk()
+        {
+            //GIVEN
+            var comment = new Comment(1, new DateTime(2022, 7, 7, 00, 10, 15),
+                new DateTime(2022, 7, 10, 00, 10, 15),"blablabla", "", new Topic());
+
+            //WHEN
+            var commentDeleted = _repository.Setup(repo => repo.Delete(comment));
+            Assert.IsNotNull(commentDeleted);
+            
+            //THEN
+           
         }
 
     }

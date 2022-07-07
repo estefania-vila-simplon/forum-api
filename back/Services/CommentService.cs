@@ -55,5 +55,10 @@ namespace back.Services
 
             return _commentRepository.Update(comment);
         }
+
+        public void Delete(Comment comment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

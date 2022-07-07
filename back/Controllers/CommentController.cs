@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using back.Models;
+using back.Services.Interfaces;
 
 namespace back.Controllers
 {
@@ -14,124 +15,106 @@ namespace back.Controllers
     public class CommentController : ControllerBase
     {
         private readonly forumdbContext _context;
+        private readonly ICommentService _commentService;
 
-        public CommentController(forumdbContext context)
+
+        public CommentController(ICommentService commentService)
         {
-            _context = context;
+            _context = new forumdbContext();
+            _commentService = commentService;
         }
 
         // GET: api/Comment
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
+        public IActionResult GetComments()
         {
-          if (_context.Comments == null)
-          {
-              return NotFound();
-          }
-            return await _context.Comments.ToListAsync();
+          return Ok(this._commentService.GetAllComments());
         }
 
         // GET: api/Comment/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetComment(int id)
+        public IActionResult GetComment(int id)
         {
-          if (_context.Comments == null)
-          {
-              return NotFound();
-          }
-            var comment = await _context.Comments.FindAsync(id);
-
+            var comment = _commentService.GetById(id);         
+        
             if (comment == null)
             {
                 return NotFound();
             }
 
-            return comment;
+            return Ok (comment);
         }
 
         // PUT: api/Comment/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutComment(int id, Comment comment)
+        public IActionResult PutComment(int id, Comment comment)
         {
-            if (id != comment.CommentId)
+            if (CommentExists(id))
+            {
+
+                try
+                {
+                    _commentService.Update(comment);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return Problem("Update failed");
+                }
+            }
+            else
             {
                 return BadRequest();
+
             }
 
-            _context.Entry(comment).State = EntityState.Modified;
+            return Ok("Comment modified");
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CommentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            
         }
 
         // POST: api/Comment
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(Comment comment)
+        public IActionResult PostComment(Comment comment)
         {
-          if (_context.Comments == null)
-          {
-              return Problem("Entity set 'forumdbContext.Comments'  is null.");
-          }
-            _context.Comments.Add(comment);
             try
             {
-                await _context.SaveChangesAsync();
+                _commentService.Create(comment);
             }
             catch (DbUpdateException)
             {
                 if (CommentExists(comment.CommentId))
                 {
-                    return Conflict();
+                    return Conflict("Comment already exists");
                 }
                 else
                 {
-                    throw;
+                    return Problem();
                 }
             }
 
-            return CreatedAtAction("GetComment", new { id = comment.CommentId }, comment);
+            return Ok("Comment created");
         }
 
         // DELETE: api/Comment/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteComment(int id)
+        public IActionResult DeleteComment(int id)
         {
-            if (_context.Comments == null)
-            {
-                return NotFound();
-            }
-            var comment = await _context.Comments.FindAsync(id);
+           
+            var comment = _commentService.GetById(id);
             if (comment == null)
             {
                 return NotFound();
             }
 
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            _commentService.Delete(comment);
+           return Ok("Comment deleted");
         }
 
         private bool CommentExists(int id)
         {
-            return (_context.Comments?.Any(e => e.CommentId == id)).GetValueOrDefault();
+            return _commentService.GetById(id) != null;
         }
     }
 }

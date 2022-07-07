@@ -1,17 +1,24 @@
 using back.Repositories;
 using back.Repositories.Interfaces;
+using back.Services;
+using back.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Controllers
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEntityFrameworkMySql();
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
-//builder.Services.AddSingleton
+
+// Repositories
+//builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
+
+// Services
+builder.Services.AddSingleton<ICommentService, CommentService>();
 
 var app = builder.Build();
 
