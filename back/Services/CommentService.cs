@@ -1,4 +1,5 @@
-﻿using back.Models;
+﻿using back.Exceptions;
+using back.Models;
 using back.Repositories.Interfaces;
 using back.Services.Interfaces;
 
@@ -21,6 +22,13 @@ namespace back.Services
             }
 
             return _commentRepository.GetById(id);
+        }
+
+        public List<Comment> GetAllComments()
+        {
+            List<Comment> comments = _commentRepository.GetAllComments();
+           
+            return _commentRepository.GetAllComments();
         }
 
         public Comment Create(Comment comment)

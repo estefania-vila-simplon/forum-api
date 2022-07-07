@@ -16,6 +16,7 @@ namespace back.Models
             CommentUser = commentUser;
             CommentTopic = commentTopic;
         }
+
         
         public int CommentId { get; set; }
         public DateTime CreationDate { get; set; }

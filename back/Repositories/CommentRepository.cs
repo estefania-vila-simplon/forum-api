@@ -27,8 +27,10 @@ namespace back.Repositories
         }
 
         public List<Comment> GetAllComments()
-        {
-            return _dbContext.Comments.ToList();
+        {           
+            List<Comment> comments = _dbContext.Comments.ToList();
+            return comments;
+            
         }
 
         public Comment? GetById(int id)

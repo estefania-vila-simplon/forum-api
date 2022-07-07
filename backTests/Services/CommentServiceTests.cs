@@ -94,6 +94,7 @@ namespace backTests.Services
             //THEN
         }
 
+
         [TestMethod]
         public void Create_CreateCommentFail()
 
@@ -114,8 +115,6 @@ namespace backTests.Services
             {
                 _commentService.Create(comment);
             });
-
-
             
         }
 
@@ -198,7 +197,7 @@ namespace backTests.Services
             var commentUpdatedFromService = _commentService.Update(updatedComment);
 
             Assert.IsNotNull(commentUpdatedFromService);
-            Assert.IsNotNull(commentUpdatedFromService);
+            Assert.IsNotNull(commentUpdatedFromService.ModifDate);
             Assert.IsTrue(commentUpdatedFromService.CreationDate.CompareTo(commentUpdatedFromService.ModifDate) < 0);
             //WHEN
 
@@ -218,6 +217,22 @@ namespace backTests.Services
 
             //THEN
         }
+
+        [TestMethod]
+        public void FindAllComments()
+        {
+            //GIVEN    
+            
+            var commentsList = new List<Comment>();
+
+            //WHEN
+            _repository.Setup(repo => repo.GetAllComments()).Returns(commentsList);
+            var comments = _commentService.GetAllComments();
+            //THEN
+            Assert.IsNotNull(comments);
+
+        }
+
     }
 }
 
