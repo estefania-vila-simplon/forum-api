@@ -18,33 +18,15 @@ CREATE SCHEMA IF NOT EXISTS `forum-db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf
 USE `forum-db` ;
 
 -- -----------------------------------------------------
--- Table `forum-db`.`user`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `forum-db`.`user` (
-  `UserID` INT NOT NULL,
-  `UserName` VARCHAR(45) NOT NULL,
-  `UserLastName` VARCHAR(45) NOT NULL,
-  `UserEmail` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`UserID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
 -- Table `forum-db`.`topic`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `forum-db`.`topic` (
   `TopicID` INT NOT NULL,
   `CreationDate` DATETIME NOT NULL,
-  `ModifDate` DATETIME NOT NULL,
+  `ModifDate` DATETIME DEFAULT NULL,
   `TopicTitle` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`TopicID`),
-  CONSTRAINT `TopicUser_UserID`
-    FOREIGN KEY (`TopicID`)
-    REFERENCES `forum-db`.`user` (`UserID`)
-    ON DELETE CASCADE
-    ON UPDATE RESTRICT)
+`CreatedBy`TEXT NOT NULL,
+  PRIMARY KEY (`TopicID`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -56,17 +38,14 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `forum-db`.`comment` (
   `CommentID` INT NOT NULL,
   `CreationDate` DATETIME NOT NULL,
-  `ModifDate` DATETIME NOT NULL,
+  `ModifDate` DATETIME DEFAULT NULL,
   `Content` TEXT NOT NULL,
+`CreatedBy`TEXT NOT NULL,
+`CommentTopicId` INT NOT NULL,
   PRIMARY KEY (`CommentID`),
   CONSTRAINT `CommentTopic_TopicID`
-    FOREIGN KEY (`CommentID`)
+    FOREIGN KEY (`CommentTopicId`)
     REFERENCES `forum-db`.`topic` (`TopicID`)
-    ON DELETE CASCADE
-    ON UPDATE RESTRICT,
-  CONSTRAINT `CommentUser_UserID`
-    FOREIGN KEY (`CommentID`)
-    REFERENCES `forum-db`.`user` (`UserID`)
     ON DELETE CASCADE
     ON UPDATE RESTRICT)
 ENGINE = InnoDB
