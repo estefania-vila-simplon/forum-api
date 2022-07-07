@@ -5,25 +5,27 @@ namespace back.Models
 {
     public partial class Topic
     {
+        public Topic()
+        {
+            //Comments = new HashSet<Comment>();
+        }
 
-        public Topic() { }
-
-        public Topic(int topicId, DateTime creationDate, Nullable<DateTime> modifDate, string topicTitle, string createdBy, List<Comment> comment)
+        public Topic(int topicId, DateTime creationDate, DateTime? modifDate, string topicTitle, string createdBy, ICollection<Comment> comments)
         {
             TopicId = topicId;
             CreationDate = creationDate;
             ModifDate = modifDate;
             TopicTitle = topicTitle;
             CreatedBy = createdBy;
-            Comment = comment;
+            //Comments = comments;
         }
 
         public int TopicId { get; set; }
         public DateTime CreationDate { get; set; }
-        public Nullable<DateTime> ModifDate { get; set; }
+        public DateTime? ModifDate { get; set; }
         public string TopicTitle { get; set; } = null!;
         public string CreatedBy { get; set; } = null!;
 
-        public virtual List<Comment> Comment { get; set; } = new List<Comment>();
+        //public virtual ICollection<Comment> Comments { get; set; }
     }
 }

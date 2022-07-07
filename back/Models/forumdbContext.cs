@@ -37,22 +37,19 @@ namespace back.Models
             {
                 entity.ToTable("comment");
 
+                entity.HasIndex(e => e.CommentTopicId, "CommentTopic_TopicID");
+
                 entity.Property(e => e.CommentId)
                     .ValueGeneratedNever()
                     .HasColumnName("CommentID");
 
                 entity.Property(e => e.Content).HasColumnType("text");
 
-                entity.Property(e => e.CreatedBy).HasMaxLength(45);
+                entity.Property(e => e.CreatedBy).HasColumnType("text");
 
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.CommentTopic)
-                     .WithOne(p => p.Comment.FirstOrDefault())
-                     .HasForeignKey<Comment>(d => d.CommentId)
-                     .HasConstraintName("CommentTopic_TopicID");
             });
 
             modelBuilder.Entity<Topic>(entity =>
@@ -63,7 +60,7 @@ namespace back.Models
                     .ValueGeneratedNever()
                     .HasColumnName("TopicID");
 
-                entity.Property(e => e.CreatedBy).HasMaxLength(45);
+                entity.Property(e => e.CreatedBy).HasColumnType("text");
 
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
 

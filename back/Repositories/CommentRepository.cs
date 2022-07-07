@@ -1,5 +1,6 @@
 ﻿using back.Models;
 using back.Exceptions;
+using System.Data.Entity;
 using back.Repositories.Interfaces;
 
 namespace back.Repositories
@@ -15,7 +16,21 @@ namespace back.Repositories
 
         public Comment Create(Comment comment)
         {
-            _dbContext.Comments.Add(comment);
+            using var transaction = _dbContext.Database.BeginTransaction();
+
+            if (!_dbContext.Comments.Contains(comment))
+            {
+                comment.CommentTopic = _dbContext.Topics.Find(comment.CommentTopicId);
+
+                if( comment.CommentTopic != null)
+                {
+                    _dbContext.Comments.Add(comment);
+                    _dbContext.SaveChanges();
+                }
+               
+                transaction.Commit();
+            }
+            
 
             return comment;
         }
@@ -27,8 +42,14 @@ namespace back.Repositories
         }
 
         public List<Comment> GetAllComments()
-        {           
-            List<Comment> comments = _dbContext.Comments.ToList();
+        {
+            List<Comment> comments = _dbContext.Comments.Include("Topics").ToList();
+
+            comments.ForEach(c =>
+            {
+                c.CommentTopic = _dbContext.Topics.Find(c.CommentTopicId);
+            });
+
             return comments;
             
         }

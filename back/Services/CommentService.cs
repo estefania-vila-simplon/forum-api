@@ -25,9 +25,7 @@ namespace back.Services
         }
 
         public List<Comment> GetAllComments()
-        {
-            List<Comment> comments = _commentRepository.GetAllComments();
-           
+        {           
             return _commentRepository.GetAllComments();
         }
 
@@ -39,10 +37,10 @@ namespace back.Services
                 throw new ArgumentException("Your comment content has a 500 maximum character limit");
             }
 
-            if (comment.CommentId > 0)
+            /*if (comment.CommentId > 0)
             {
                 throw new ArgumentException("Comment is not new !");
-            }
+            }*/
 
             return _commentRepository.Create(comment);
             

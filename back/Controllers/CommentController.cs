@@ -82,7 +82,7 @@ namespace back.Controllers
             {
                 _commentService.Create(comment);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
                 if (CommentExists(comment.CommentId))
                 {

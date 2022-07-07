@@ -1,4 +1,5 @@
 using back.Repositories;
+using back.Models;
 using back.Repositories.Interfaces;
 using back.Services;
 using back.Services.Interfaces;
@@ -11,9 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddEntityFrameworkMySql();
 
 // Repositories
+builder.Services.AddSingleton<forumdbContext>();
 //builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
 

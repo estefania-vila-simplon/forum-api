@@ -31,9 +31,7 @@ namespace backTests.Services
             
             _commentService = new CommentService(_repository.Object);
             _comments = new List<Comment>();
-            _comments.Add(new Comment(1, new DateTime(), new DateTime(), "blabla", "", new Topic()));
-            _comments.Add(new Comment(2, new DateTime(), new DateTime(), "blabla", "", new Topic()));
-            _comments.Add(new Comment(3, new DateTime(), new DateTime(), "blabla", "", new Topic()));
+           
         }
 
 
