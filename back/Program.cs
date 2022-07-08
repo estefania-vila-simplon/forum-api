@@ -26,11 +26,13 @@ builder.Services.AddSwaggerGen();
 
 // Repositories
 builder.Services.AddSingleton<forumdbContext>();
-//builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<ITopicRepository, TopicRepository>();
 builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
+builder.Services.AddSingleton<ITopicRepository, TopicRepository>();
 
 // Services
 builder.Services.AddSingleton<ICommentService, CommentService>();
+builder.Services.AddSingleton<ITopicService, TopicService>();
 
 var app = builder.Build();
 

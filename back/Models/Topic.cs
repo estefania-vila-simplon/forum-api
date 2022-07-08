@@ -10,7 +10,7 @@ namespace back.Models
             //Comments = new HashSet<Comment>();
         }
 
-        public Topic(int topicId, DateTime creationDate, DateTime? modifDate, string topicTitle, string createdBy, ICollection<Comment> comments)
+        public Topic(int topicId, DateTime creationDate, DateTime? modifDate, string topicTitle, string createdBy)
         {
             TopicId = topicId;
             CreationDate = creationDate;
