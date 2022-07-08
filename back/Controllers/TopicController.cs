@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using back.Models;
+using back.Services.Interfaces;
 
 namespace back.Controllers
 {
@@ -14,10 +15,12 @@ namespace back.Controllers
     public class TopicController : ControllerBase
     {
         private readonly forumdbContext _context;
+        private ITopicService _topicService;
 
-        public TopicController(forumdbContext context)
+        public TopicController(forumdbContext context, ITopicService topicService)
         {
             _context = context;
+            _topicService = topicService;
         }
 
         // GET: api/Topic
@@ -85,14 +88,9 @@ namespace back.Controllers
         [HttpPost]
         public async Task<ActionResult<Topic>> PostTopic(Topic topic)
         {
-          if (_context.Topics == null)
-          {
-              return Problem("Entity set 'forumdbContext.Topics'  is null.");
-          }
-            _context.Topics.Add(topic);
             try
             {
-                await _context.SaveChangesAsync();
+                _topicService.Create(topic);
             }
             catch (DbUpdateException)
             {
