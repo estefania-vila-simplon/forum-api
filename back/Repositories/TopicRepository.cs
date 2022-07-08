@@ -17,7 +17,7 @@ namespace back.Repositories
         {
             using var transaction = _dbContext.Database.BeginTransaction();
 
-            if(_dbContext.Topics.Contains(topic))
+            if(!_dbContext.Topics.Contains(topic))
             {
                 _dbContext.Topics.Add(topic);
                 _dbContext.SaveChanges();

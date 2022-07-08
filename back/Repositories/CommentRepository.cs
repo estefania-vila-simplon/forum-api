@@ -18,7 +18,7 @@ namespace back.Repositories
         {
             using var transaction = _dbContext.Database.BeginTransaction();
 
-            if (_dbContext.Comments.Contains(comment))
+            if (!_dbContext.Comments.Contains(comment))
             {
                 comment.CommentTopic = _dbContext.Topics.Find(comment.CommentTopicId);
 
