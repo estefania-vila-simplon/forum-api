@@ -7,7 +7,7 @@ namespace back.Services
     {
         static String[] banWords = new string[150];
 
-        private static readonly string FILE_TO_LOAD = "c:/users/maequise/source/repos/forum-api/back/Properties/insults.txt";
+        private static readonly string FILE_TO_LOAD = "c:/users/gloriaestefania.lope/Desktop/FORUM/back/Properties/insults.txt";
 
         static WordFilterService()
         {
