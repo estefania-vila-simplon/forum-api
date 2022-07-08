@@ -1,11 +1,11 @@
 ﻿using back.Models;
-using back.Repositories.Interfaces;
 using back.Services.Interfaces;
+using back.Repositories.Interfaces;
 
 namespace back.Services
 {
     public class TopicService : ITopicService
-    {
+    { 
 
         private readonly ITopicRepository _topicRepository;
 
@@ -52,6 +52,5 @@ namespace back.Services
 
             return _topicRepository.Update(topic); ;
         }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿using back.Models;
+using back.Models;
 
 namespace back.Repositories.Interfaces
 {
@@ -12,4 +12,5 @@ namespace back.Repositories.Interfaces
         public List<Topic> GetAllTopics();
         public Topic? GetById(int id);
     }
+
 }

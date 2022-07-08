@@ -17,14 +17,12 @@ namespace back.Repositories
         {
             using var transaction = _dbContext.Database.BeginTransaction();
 
-            if (!_dbContext.Topics.Contains(topic))
+            if(!_dbContext.Topics.Contains(topic))
             {
                 _dbContext.Topics.Add(topic);
                 _dbContext.SaveChanges();
                 transaction.Commit();
             }
-
-
             return topic;
 
         }
@@ -57,17 +55,21 @@ namespace back.Repositories
         public Topic? Update(Topic topic)
         {
             using var transaction = _dbContext.Database.BeginTransaction();
-            if (!_dbContext.Topics.Contains(topic))
+            if (_dbContext.Topics.Contains(topic))
             {
-                _dbContext.Topics.Update(topic);
+                var topicToUpdate = GetById(topic.TopicId);
+
+                topicToUpdate.CreationDate = topic.CreationDate;
+                topicToUpdate.ModifDate = topic.ModifDate;
+                topicToUpdate.TopicTitle = topic.TopicTitle;
+
+                _dbContext.Topics.Update(topicToUpdate);
                 _dbContext.SaveChanges();
                 transaction.Commit();
             }
 
-            return topic; 
+        return _dbContext.Topics.Where(u => u.TopicId == topic.TopicId).FirstOrDefault();
         }
-
-        
     }
 
 }
