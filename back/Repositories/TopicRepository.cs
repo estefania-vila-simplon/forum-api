@@ -62,6 +62,7 @@ namespace back.Repositories
                 topicToUpdate.CreationDate = topic.CreationDate;
                 topicToUpdate.ModifDate = topic.ModifDate;
                 topicToUpdate.TopicTitle = topic.TopicTitle;
+                topicToUpdate.CreatedBy = topic.CreatedBy;
 
                 _dbContext.Topics.Update(topicToUpdate);
                 _dbContext.SaveChanges();
